@@ -105,24 +105,11 @@ nameserver 192.168.122.1
 ``` 
 ping wise.ita05.com -c 5
 ```
-
-
-
-1.  Membuat subdomain wise.ita05.com dengan alias www.wise.ita05.com
-
-1.  Install bind di WISE dengan command "apt-get bind9 -y"
-
-2.  Edit file named.conf.local dengan menjalankan nano /etc/bind/named.conf.local dengan menambahkan :\
-    ![](https://lh6.googleusercontent.com/0ZgX4BprhwOKnGKKXcdy75XFG2GO6519gjOBSD-UdVVm2GbgC9NtzxPf8Lji9CB5Nw5k8Uzjzek6vm1rbhb16eugyQJ6daYGStwjqjpgqKDz_PRAvR7I5PF5AlZFoi2Fk8ICOD_3Jeao2YxiacMxJNyQhEGfAc_XJ3ALr67nc_QByDVXnCOFGhf91w)
-
-3.  Edit file resolv.conf di SSS /etc/resolv.conf
-
-![](https://lh3.googleusercontent.com/C4sXZcAdWXfZh4ShT3xELZZJaO2vxkMnNqTHA97mkefc56uXej-riopE2v-LmAUVokHXM4PzMFaKutHWm34pqFXhvnGoyBmDZGur7dJykIfX6qK_lGAvef_bbKgea0fiO1nDV83WB1KlYJFpzHi1n1AiA0zh_TcrLgWGuu9fqaW3fSwvFH80q_Kw_g)
-
-Testing website
-
 ![](https://lh3.googleusercontent.com/3fqWBHgl4EQAU3n1ztcxFnzspRnaNS4L1Twf_WDQRS0afBeTTXBWT062r4w6uD3HrArBYAbGUq-ilnBiguEVSVNHmUkeUrrNLCdSem5q3wYAFYbgMgJLyIdTf_QE6ky0mGU3IbnD40rI5CPhlf9V--Is2mLooKpj3H8j5WdkXR6onaW3Nw_lCDtswg)![](https://lh3.googleusercontent.com/_ae-X53KOkwyFxsEVMMTi5-cCPXILU5HeYNt64KH-uFGswDB8q4oGUXLN5pWlL1tWcOHWaAEKMJF2r2MJL9QLmTkhThKdSskCGIa47bRG27rhLQZdWRbJ5dFEaER3uvff0qsufykRTVsBgnuyZZuunDhun12cbjmc8STio7J26zsdTR2VMFPPuB9mw)
 
+# Soal 3
+
+## Solusi 3
 1.  Kemudian kita membuat subdomain eden.wise.its05.com dengan alias [www.eden.wise.ita05.com](http://www.eden.wise.ita05.com) dengan mengatur DNS di WISE dan mengarah ke Eden.
 
 Filenya diakses melalui wise/wise.ita05.com
