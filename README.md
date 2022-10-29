@@ -14,7 +14,7 @@ Diminta untuk membuat topologi dengan spesifikasi sebagai berikut :
 
 WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.
 
-## Solusi 1
+## Solusi 
 Kita menyusun topologi sesuai dengan yang digambarkan dan untuk konfigurasi pada setiap node akan di set seperti berikut ini
 
 ### 1. Konfigurasi Ostania
@@ -112,15 +112,47 @@ ping wise.ita05.com -c 5
 ## Solusi 3
 1.  Kemudian kita membuat subdomain eden.wise.its05.com dengan alias [www.eden.wise.ita05.com](http://www.eden.wise.ita05.com) dengan mengatur DNS di WISE dan mengarah ke Eden.
 
-Filenya diakses melalui wise/wise.ita05.com
+### 1. Ubah isi file wise.ita05.com yang ada pada WISE dengan mengakses melalui 
+```
+nano jarkom/wise.ita05.com
+```
+Isi seperti berikut :
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     wise.ita05.com. root.wise.ita05.com. (
+                              2022102501                ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      wise.ita05.com.
+@       IN      A       10.42.2.3
+www     IN      CNAME   wise.ita05.com.
+eden    IN      A       10.42.2.3
+www.eden        IN      CNAME   eden.wise.ita05.com.
+@		IN	AAAA	::1
+```
 
-![](https://lh5.googleusercontent.com/rgGu9b4pT9h40719lyGzk0ydRuP7RCoT5QXXZyt9NrEI7474h6TOGcXG6QTpozrr8R-sjWYi_OKYDxdFYjhsLoLVD4nsMKF6FIh-2469SKgoK3dTCfrw0D6hcUbVxPFMob7voBZq_pj36mCZp9_saoAat0uHvJ0ESebsekJWr8NhQXqs8T0zmmtgIw)
-
-Testing subdomain
-
+### 2. Testing subdomain
+Jalankan pada SSS
+```
+ping eden.wise.ita05.com
+```
 ![](https://lh4.googleusercontent.com/8Jb6zTvIEbuU5URSHQDwyDWHdgaYKCFrIndj6doJ6prqdh-viVYCZrzApa4Xq6s5zUX7F-DTQ-3sNZ5h9z68kUIUl-yaCKSlDWeSP1gGufgG-QkMoHnvVn07vLAi1eNMEVX1NqxN3AUzRB5_MnkOkm5SoyTOoLyF6sgSQg7SxEF0RwKrQsDmUWIniw)
 
+```
+ping www.eden.wise.ita05.com -c 5
+```
+
 ![](https://lh5.googleusercontent.com/WSLScNO4XQPgJNGh11XGG1BroczU4BKnz4QplwAQ0He-Cg_9iv94hPPHO5xsSQbWoyvXV-GQL5DAAirDpTHw85OJdy_NTYoaAFro5PGlLs1x-OC2ouDcnvs2RlfCntOBPLPCK1y_DUK477WNjH-ppymtMpNY6R05wyHLKgplWSx5FC9DgabXoLBL2A)
+
+# Soal 4
+
+## Solusi 
 
 1.  Diminta untuk membuat reverse domain untuk domain utama
 
