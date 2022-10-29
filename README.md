@@ -671,3 +671,7 @@ Request gambar yang memiliki substring eden untuk diarahkan ke eden.png
 ![](https://lh6.googleusercontent.com/uDhjNM-GBmqSQ060vE-O5ppw-HGmG9GW7EX6WFxAg-vVON6PseV2WCfL-8jgTkm4Suvx4X6kIyPDu7yo8INB1bjl_DlzVZ65RnuAB3KkkxnJhlFpGq_QADQAJL5-jBXP9BYfjhbycwS96ynwb-hTeA1nOMUzbaEA00zQhz27dDzvMP69uhTxWV1Mng)
 ![](https://lh3.googleusercontent.com/c4e8v7pLSSOIYb33R0AUJ0wFlA855cpwEBs3Ib10-6xsUSI__g6dcFIKLdQruJjsIq_0rkQQHCQi4s8tzF0_5Z5WAC2ZEqoM_aFBF3cE2iAXbvdbzgXu8f2Z0qu5sAcRbB-rbAAU4mFUmJmLIjYOEmSJ1ee4rEXcvbY7VksjQGO-3OHog0wN8vnuMQ)![](https://lh5.googleusercontent.com/7jfwCY2Ruh27vrhNkanlEPRxemH5knkBEEmjyKi6qcQA1Sl086Bp1PthDdgvgmha3Y_sgvuCS9DyKBES0gyv5ikf3V-g1op-OWtmwEotJhZnwGermzKUbNjVkfLmuuMBi1GoAi5UBijjZKevTeUIzUOuMK_KePwKRAQllMwdiU6AqXpBqGgEAsIMtg)
 ![](https://lh6.googleusercontent.com/UD_ux4_hh8L01j87edvg03zcwvnXaad39D4e6_1PXmqcCA_aqvzqb5eG68hkwAqHptEVNmqBr5yV1C2ZA6-Od-ZUZghKdVWWUpw0H1uM0rorZKiWw2ZwBD20fP1vmq9zs-76orE3AvAqv2yFZ4kb2JlC14wKoXRxcWyOI65Imv6AoURd0pqrFZ3Yvw)
+
+# Kendala
+1. untuk CNAME strix tidak dapat dipanggil, tetapi memiliki bukti pernah dilakukan
+2. Saat demo, .htaccess hilang, sehingga setelah praktikum, htaccess ditambal
