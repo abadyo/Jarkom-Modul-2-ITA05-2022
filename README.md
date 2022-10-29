@@ -89,7 +89,8 @@ Membuat subdomain wise.ita05.com dengan alias www.wise.ita05.com
 ```
 apt-get bind9 -y
 ```
-### 2. Edit file `named.conf.local` dengan menjalankan `nano /etc/bind/named.conf.local` dengan menambahkan :
+### 2. Edit file `named.conf.local` 
+Jalankan `nano /etc/bind/named.conf.local` dan tambahkan :
 ```
 zone "wise.ita05.com" {
         type master;
@@ -151,22 +152,53 @@ ping www.eden.wise.ita05.com -c 5
 ![](https://lh5.googleusercontent.com/WSLScNO4XQPgJNGh11XGG1BroczU4BKnz4QplwAQ0He-Cg_9iv94hPPHO5xsSQbWoyvXV-GQL5DAAirDpTHw85OJdy_NTYoaAFro5PGlLs1x-OC2ouDcnvs2RlfCntOBPLPCK1y_DUK477WNjH-ppymtMpNY6R05wyHLKgplWSx5FC9DgabXoLBL2A)
 
 # Soal 4
+Diminta untuk membuat reverse domain untuk domain utama
 
 ## Solusi 
+### 1.  Edit file named.conf.local 
+Buka Web Console di WISE dan jalankan 
+```
+nano /etc/bind/named.conf.local
+```
+Edit isi file seperti berikut
+```
+zone "2.42.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/2.42.10.in-addr.arpa";
+};
+```
 
-1.  Diminta untuk membuat reverse domain untuk domain utama
+### 2. Edit file 3.42.10.in-addr.arpa 
+Buka Web Console di WISE dan jalankan 
+```
+nano /etc/bind/wise/ 3.42.10.in-addr.arpa
+```
+Edit isi file seperti berikut
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     wise.ita05.com. root.wise.ita05.com. (
+                              2022102502                ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+2.42.10.in-addr.arpa.   IN      NS      wise.ita05.com.
+3       IN      PTR     wise.ita05.com.
+```
 
-1.  Edit file named.conf.local di WISE di /etc/bind/named.conf.local
-
-![](https://lh4.googleusercontent.com/nuJX0IMcCP3XLxt7mNiUnBPtWsZr8g9u5XTzWHztTkSJJ_O0TfmgTrg8IrAY2n4fLFXgBENliU6t_EhGuljUKXLeG_mS0SyxxB2KUtTIRMDkpwcZSjWjDmGe6E-7fvcWYlfji5Lc41OGAGMlfvKm1rwmqGQjD15tO_Rj5eiRS6-tmNoQq_0l40Rt3Q)
-
-1.  Edit file 3.42.10.in-addr.arpa di  /etc/bind/wise
-
-![](https://lh4.googleusercontent.com/Cobf71XNRoaVHeBuE8fgWo4xCHNXg0fGSThNnyrjpy4NrQmmtOPHyVevgbc9xtmH0B_XgVpPgazFRzZdDzg66aTxQBBIN9ICv__-idqV1t-ji0LvGWrJUiac8R_M1-DtQWJjHW-xZBx3IhZVhZRpRZ1HBXc0GlADdHyf4ekd474nmyuIuYfaWiLG-g)
-
-1.  Reverse DNS dari 10.42.3.2
+### 3. Reverse DNS dari 10.42.3.2
+Buka Web Console di SSS dan jalankan
+```
+host -t PTR 10.42.3.2
+```
+Hasilnya
 
 ![](https://lh3.googleusercontent.com/qHiTBAFkB9lDi7k_stjpX2oVuOk7q-1ZGE9eASLm5Urd5Cp5VUz3Zv5vk0Kq8Zevqo74B_iKKhDd5x3-fqHGegGeDaO04YtjlEnsDI8A-mz-NemYD2S2cguXI7m7AiJDQZoR2GKelzX66qCE7eG-Letz25QExWlfrjpY0A60qf0NViLM2LdfEJLS7w)
+
 
 1.  Membuat Berlint sebagai DNS slave untuk domain utama
 
