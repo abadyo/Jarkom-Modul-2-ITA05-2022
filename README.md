@@ -109,10 +109,9 @@ ping wise.ita05.com -c 5
 ![](https://lh3.googleusercontent.com/3fqWBHgl4EQAU3n1ztcxFnzspRnaNS4L1Twf_WDQRS0afBeTTXBWT062r4w6uD3HrArBYAbGUq-ilnBiguEVSVNHmUkeUrrNLCdSem5q3wYAFYbgMgJLyIdTf_QE6ky0mGU3IbnD40rI5CPhlf9V--Is2mLooKpj3H8j5WdkXR6onaW3Nw_lCDtswg)![](https://lh3.googleusercontent.com/_ae-X53KOkwyFxsEVMMTi5-cCPXILU5HeYNt64KH-uFGswDB8q4oGUXLN5pWlL1tWcOHWaAEKMJF2r2MJL9QLmTkhThKdSskCGIa47bRG27rhLQZdWRbJ5dFEaER3uvff0qsufykRTVsBgnuyZZuunDhun12cbjmc8STio7J26zsdTR2VMFPPuB9mw)
 
 # Soal 3
+Kemudian kita membuat subdomain eden.wise.its05.com dengan alias [www.eden.wise.ita05.com](http://www.eden.wise.ita05.com) dengan mengatur DNS di WISE dan mengarah ke Eden.
 
-## Solusi 3
-1.  Kemudian kita membuat subdomain eden.wise.its05.com dengan alias [www.eden.wise.ita05.com](http://www.eden.wise.ita05.com) dengan mengatur DNS di WISE dan mengarah ke Eden.
-
+## Solusi
 ### 1. Ubah isi file wise.ita05.com yang ada pada WISE dengan mengakses melalui 
 ```
 nano jarkom/wise.ita05.com
@@ -204,7 +203,6 @@ Hasilnya
 Membuat Berlint sebagai DNS slave untuk domain utama
 
 ## Solusi
-
 ### 1. Ubah file named.conf.local di WISE
 Buka Web Console di WISE dan jalankan
 ```
@@ -252,13 +250,105 @@ ping wise.ita05.com
 ```
 ![](https://lh5.googleusercontent.com/MFddb_mXoMbScVhWv_Ij6TTrs-1n9DCKfhiC_li0AzHU4ABxZMKW-fe88-dVFrXSGWRQKQafxroyG145F0oBV847UswkO1OXwl8jZp2jRanwe61F5aQrJc-YK_79B-z1CZ7KhIk6TEkp2ES-dDTyzrro6wug86odkK3TLhkul8Itt43sxH6dEoSWRA)
 
-1.  Membuat subdomain khusus untuk operation yaitu operation.wise.ita05.com dengan alias [www.operation.wise.ita05.com](http://www.operation.wise.ita05.com) yang didelegasikan dari WISE ke Berlint dengan IP menuju Eden dalam folder operation
+# Soal 6
+Membuat subdomain khusus untuk operation yaitu operation.wise.ita05.com dengan alias [www.operation.wise.ita05.com](http://www.operation.wise.ita05.com) yang didelegasikan dari WISE ke Berlint dengan IP menuju Eden dalam folder operation
 
-1.  Edit file wise.ita05.com di /etc/bind/wise
+## Solusi
+### 1. Edit file wise.ita05.com di WISE
+Buka Web Console di SSS dan jalankan
+```
+nano /etc/bind/wise.ita05.com
+```
+Sesuaikan isi file seperti berikut
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     wise.ita05.com. root.wise.ita05.com. (
+                              2022102501                ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      wise.ita05.com.
+@       IN      A       10.42.2.3
+www     IN      CNAME   wise.ita05.com.
+eden    IN      A       10.42.2.3
+www.eden        IN      CNAME   eden.wise.ita05.com.
+ns1     IN      A       10.42.2.2
+operation       IN      NS      ns1
+www.operation   IN      CNAME   operation.wise.ita05.com.
+@       IN      AAAA    ::1
+```
 
-![](https://lh4.googleusercontent.com/0DF5M8amOIZvqMmdVwFQgxWyho2eAdmTsFlVp-sBuke-d-fTpuKYkTADFOIwAueiKPN2B7c9ezfWS5rDMoG1DH3kswR6Dw9mIgrKADrjelaB0GcTNVeKZS9KS0vX7EcVBAZUitH8gUbaoO_mGN_rqLYuUAfkiji2DZ1yb7GZqFyWYihFckRfZbbuHg)
+### 2. Edit file named.conf.options di WISE
+```
+nano /etc/bind/named.conf.options
+```
+Sesuaikan isi file seperti berikut
+```
+options {
+        directory "/var/cache/bind";
 
-1.  Edit file named.conf.options di WISE /etc/bind
+        allow-query{any;};
+
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+};
+```
+### 3. Edit file named.conf.local di WISE
+```
+nano /etc/bind/named.conf.local
+```
+Sesuaikan isi file seperti berikut
+```
+zone "wise.ita05.com" {
+        type master;
+        also-notify { 10.42.2.2; };
+        allow-transfer { 10.42.2.2; };
+        file "/etc/bind/wise/wise.ita05.com";
+};
+
+zone "2.42.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/2.42.10.in-addr.arpa";
+};
+```
+### 4. Edit file named.conf.local di Berlint
+```
+nano /jarkom/named.conf.local
+```
+Sesuaikan isi file seperti berikut
+```
+zone "wise.ita05.com" {
+    type slave;
+    masters { 10.42.3.2; }; // Masukan IP EniesLobby tanpa tanda petik
+    file "/var/lib/bind/wise.ita05.com";
+};
+
+zone "operation.wise.ita05.com" {
+        type master;
+        file "/etc/bind/operation/operation.wise.ita05.com";
+};
+```
+### 5. Edit file named.conf.options di Berlint
+```
+nano /jarkom/named.conf.options
+```
+Sesuaikan isi file seperti berikut
+```
+options {
+        directory "/var/cache/bind";
+	allow-query{any;};
+
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+};
+```
+
+
 
 ![](https://lh4.googleusercontent.com/npXfiIJocsE5K_pSMhRYs7jPrxKLjDOEJbcowvukjiY3tjIrqucsgLIdjSVF4EBeSSdPDRLnH1GmDjH-egUOzy_ygk79VsgHWKNac3bXqT_RjIt_wxN0CVKZyagfyKL9g-GPnZhAninm9RR51rahN6kDne_tE8qWZtA-e5WnNr9oRjgvy0FHgZ4wiA)
 
