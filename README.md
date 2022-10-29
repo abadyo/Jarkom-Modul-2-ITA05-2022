@@ -349,7 +349,7 @@ options {
 };
 ```
 
-### 6. Edit 	
+### 6. Edit operation.wise.ita05.com di Berlint
 ```
 nano jarkom/operation.wise.ita05.com
 ```
