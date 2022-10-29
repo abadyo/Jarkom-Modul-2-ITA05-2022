@@ -200,22 +200,56 @@ Hasilnya
 ![](https://lh3.googleusercontent.com/qHiTBAFkB9lDi7k_stjpX2oVuOk7q-1ZGE9eASLm5Urd5Cp5VUz3Zv5vk0Kq8Zevqo74B_iKKhDd5x3-fqHGegGeDaO04YtjlEnsDI8A-mz-NemYD2S2cguXI7m7AiJDQZoR2GKelzX66qCE7eG-Letz25QExWlfrjpY0A60qf0NViLM2LdfEJLS7w)
 
 
-1.  Membuat Berlint sebagai DNS slave untuk domain utama
+# Soal 5
+Membuat Berlint sebagai DNS slave untuk domain utama
 
--   Ketikkan nano /etc/bind/named.conf.local pada command WISE lalu isi seperti berikut
+## Solusi
 
-![](https://lh6.googleusercontent.com/B-xJ8mc-YU6rn4IGpAZ_JBuHar8ubHUu0U3UFF9iRm3NKr7WYrOQcbDDjptCEvPdqUrkOKuZVm1Da_FTedBF2ePxZAnmFYzdT7NoVUDsNnIVvB4xH0LECF06z7lDBj7NErO3aPBze0D9KwFcB4xJb9xB7KLUCTfh8Ff_cVTqzT-hTNwxfeD9fb6S7A)
+### 1. Ubah file named.conf.local di WISE
+Buka Web Console di WISE dan jalankan
+```
+nano /etc/bind/named.conf.local
+```
+Edit isi file seperti berikut
+```
+zone "wise.ita05.com" {
+        type master;
+        also-notify { 10.42.2.2; };
+        allow-transfer { 10.42.2.2; };
+        file "/etc/bind/wise/wise.ita05.com";
+};
 
--   Ketikkan nano /etc/bind/named.conf.local pada command WISE lalu isi seperti berikut
+zone "2.42.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/2.42.10.in-addr.arpa";
+};
+```
 
-![](https://lh5.googleusercontent.com/bWSUvubh_3rOWPSlV-yqMkzRIlEtLVkF6DnIXdDvVDoGQsOi-HG-T0ePIqcCV42SRLrEs6nY_NgJX6gZxOY5zikKX3B_hOkmkziU6-95O7KBX8E0xjLhHJ4pn1rdoa5CywgG8Ly48gQq5Z8nJiycXEQvQq3hyhL0u_UXNuVoC2sH76VhXF9lbgUfBA)
-
--   Lakukan restart pada WISE
-
+### 2. Ubah file named.conf.local di BERLIN 
+Buka Web Console di BERLIN dan jalankan
+```
+nano /jarkom/named.conf.local
+```
+Edit isi file seperti berikut
+```
+zone "wise.ita05.com" {
+    type slave;
+    masters { 10.42.3.2; }; // Masukan IP EniesLobby tanpa tanda petik
+    file "/var/lib/bind/wise.ita05.com";
+};
+```
+### 3. Lakukan restart pada WISE
+Jalankan
+```
+service bind9 stop
+```
 ![](https://lh6.googleusercontent.com/bNGsfLB9VbgY4Sr9x0mj1J0dLHIpEV7RsvAVIAb7ke39LA2UwEXwRLhoPqFcblSP-kZycxRls0URFn6T1UJRC3kiGP7p0DtISYK-ae4dvKhxvoRmHlOzPRCcTsruOKGlEIfBiyc7QT5OEMed-8GxXVuJ1-_juEKDN7Jk67H-9NeZIJ3yqUHosxjDQw)
 
--   Test SSS
-
+### 4. Testing
+Buka Web Console di SSS dan jalankan
+```
+ping wise.ita05.com
+```
 ![](https://lh5.googleusercontent.com/MFddb_mXoMbScVhWv_Ij6TTrs-1n9DCKfhiC_li0AzHU4ABxZMKW-fe88-dVFrXSGWRQKQafxroyG145F0oBV847UswkO1OXwl8jZp2jRanwe61F5aQrJc-YK_79B-z1CZ7KhIk6TEkp2ES-dDTyzrro6wug86odkK3TLhkul8Itt43sxH6dEoSWRA)
 
 1.  Membuat subdomain khusus untuk operation yaitu operation.wise.ita05.com dengan alias [www.operation.wise.ita05.com](http://www.operation.wise.ita05.com) yang didelegasikan dari WISE ke Berlint dengan IP menuju Eden dalam folder operation
