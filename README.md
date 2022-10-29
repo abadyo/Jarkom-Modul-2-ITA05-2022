@@ -1,19 +1,17 @@
-Jarkom-Modul-2-ITA05-2022
+# Jarkom-Modul-2-ITA05-2022
 
-Muhammad Hanif Fatihurrizqi 5027201068
+---
 
-Abadila Barasmara Bias Dewandra 5027201052
-
-Fadly Rachman Drajad Juliantono 5027201038
-
-1.  Diminta untuk membuat topologi dengan spesifikasi sebagai berikut :
-
-WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.
-
-![](https://lh4.googleusercontent.com/RVXzp5am1pnirpEyvP6H6FhQd5pF4ZrqNLtmJJKkSFg9EuHxIJMTpjiLZBjHarVpFnwuvFIRqY7SUp9uJWyrEzMcSupF5hUPCyvzvV53XmIiN_vXMbo63Gap_3Dbj7foDid4jaqxWlFRvt2RnSDoQbF-v3AD-JV37K7eBTP2Bu_4z73uHRl1-AnmHA)
+| Nama                            |    NRP     |
+| ------------------------------- | :--------: |
+| Muhammad Hanif Fatihurrizqi     | 5027201068 |
+| Abadila Barasmara Bias Dewandra | 5027201052 |
+| Fadly Rachman Drajad Juliantono | 5027201038 |
 
 # Soal 1
 Diminta untuk membuat topologi dengan spesifikasi sebagai berikut :
+![](https://lh4.googleusercontent.com/RVXzp5am1pnirpEyvP6H6FhQd5pF4ZrqNLtmJJKkSFg9EuHxIJMTpjiLZBjHarVpFnwuvFIRqY7SUp9uJWyrEzMcSupF5hUPCyvzvV53XmIiN_vXMbo63Gap_3Dbj7foDid4jaqxWlFRvt2RnSDoQbF-v3AD-JV37K7eBTP2Bu_4z73uHRl1-AnmHA)
+
 WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.
 
 ## Solusi 1
