@@ -12,33 +12,103 @@ WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Ed
 
 ![](https://lh4.googleusercontent.com/RVXzp5am1pnirpEyvP6H6FhQd5pF4ZrqNLtmJJKkSFg9EuHxIJMTpjiLZBjHarVpFnwuvFIRqY7SUp9uJWyrEzMcSupF5hUPCyvzvV53XmIiN_vXMbo63Gap_3Dbj7foDid4jaqxWlFRvt2RnSDoQbF-v3AD-JV37K7eBTP2Bu_4z73uHRl1-AnmHA)
 
--   Config Ostania
+# Soal 1
+Diminta untuk membuat topologi dengan spesifikasi sebagai berikut :
+WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.
 
-![](https://lh4.googleusercontent.com/poiRXXo_s08mF0DzHfTQpktVOy3INUd-MQ84yS0dZqWLleXTNYZu4Qa5vmQ_8NRU-w0bYi-PT1RbpqN34utP_jM8IMU_MY6hUDrwTx4gYYZTtvMBMOrh2lBZYm_6hsjWpfLhlGYkUMDi_t6NR4l23oBvOsKQoBGZGbXVCepWSK3QHxQ9WWS-VEGy6w)
+## Solusi 1
+Kita menyusun topologi sesuai dengan yang digambarkan dan untuk konfigurasi pada setiap node akan di set seperti berikut ini
 
--   Config SSS
+### 1. Konfigurasi Ostania
+``` 
+auto eth0
+iface eth0 inet dhcp
 
-![](https://lh6.googleusercontent.com/GtXxAJaU3_eH7NPH86_-x8d7d7411eMJyz3y97Wf1N-mFds5e16X8QMHkcTqMDKnzQIDrGStSBiplkPArlSOuJo7U9mlC5SunUDDSlA4gxJpIiaEtCDuHfjfCSvt0UvxtBOlXMo64CuAaRv1AFVKIUJaz5zca5UUZeTopd5YI70MUX4q-hT_vgjp3Q)
+auto eth1
+iface eth1 inet static
+	address 10.42.1.1
+	netmask 255.255.255.0
 
--   Config Garden
+auto eth2
+iface eth2 inet static
+	address 10.42.2.1
+	netmask 255.255.255.0
 
-![](https://lh5.googleusercontent.com/H6ewcUfjyd_-efjYdiUTFsYV7uoLU7e1swcMwcjj-Ga-cElyOzveZbZqHlGFKfmtkQEHTjP74rwZx2eqq6PmX3XuD8TbEeB30HijoUI9ZJUztS4_-ckkewNV4-mJU1OMCeuH8u9VJqwQI8shVpf5Obn6mZNiLsQYMr64-2cCvPezXD2a458rwWBzLg)
+auto eth3
+iface eth3 inet static
+	address 10.42.3.1
+	netmask 255.255.255.0
+```
+### 2. Konfigurasi SSS
+``` 
+auto eth0
+iface eth0 inet static
+	address 10.24.1.2
+	netmask 255.255.255.0
+	gateway 10.24.1.1
+```
+### 3. Konfigurasi Garden
+``` 
+auto eth0
+iface eth0 inet static
+	address 10.24.1.3
+	netmask 255.255.255.0
+	gateway 10.24.1.1
+```
+### 4. Konfigurasi WISE
+``` 
+auto eth0
+iface eth0 inet static
+	address 10.42.3.2
+	netmask 255.255.255.0
+	gateway 10.42.3.1
+```
+### 5. Konfigurasi Berlint
+``` 
+auto eth0
+iface eth0 inet static
+	address 10.42.2.2
+	netmask 255.255.255.0
+	gateway 10.42.2.1
+```
+### 6. Konfigurasi Eden
+``` 
+auto eth0
+iface eth0 inet static
+	address 10.42.2.3
+	netmask 255.255.255.0
+	gateway 10.42.2.1
+```
+### 7. Test PING
+```
+ping google.com -c 5
+```
+# Soal 2
+Membuat subdomain wise.ita05.com dengan alias www.wise.ita05.com
 
--   Config Wise
+## Solusi
+### 1. Install bind di WISE
+```
+apt-get bind9 -y
+```
+### 2. Edit file `named.conf.local` dengan menjalankan `nano /etc/bind/named.conf.local` dengan menambahkan :
+```
+zone "wise.ita05.com" {
+        type master;
+        file "/etc/bind/jarkom/wise.ita05.com";
+};
+```
+### 3. Edit file `resolv.conf` di *SSS* `/etc/resolv.conf`
+```
+nameserver 10.42.3.2
+nameserver 192.168.122.1
+```
+### 4. Lakukan Pengetesan Website
+``` 
+ping wise.ita05.com -c 5
+```
 
-![](https://lh5.googleusercontent.com/AIzjvNfjXJwLcyhc7F95rC6pMUyqVRWKiTXZOGS49CNNhGMHGJaByv4-VZcsBb0218MF5_iCOAwhQ4YkESeaEAPWJXJ3_qgy-Peg324xBMz4QXqqs2pcpODwvnl2aG-TamN8aFgmTKNSbNVlsMoB32kpvSXFyXZ60jxTUPDlR2TzH07fGFb_k4mM1A)
 
--   Config Berlint
-
-![](https://lh5.googleusercontent.com/Iv1dQHAyxIiRxr1Cw0MSajE_YgtDGn9hdn7G9_udfkavPwd2SarfdYAQ6UMWxvsJPEP-45Txq90-ls0nEnFwy57p-Fj8KmwVsbmOkf0Jkpyqg1M3mfF9eqghz-agx08Uuk9zuTe-WixYY6ImNeirywObGv2lhmBXvyObrIvibKo0u6CmF8rn7DkAoA)
-
--   Config Eden
-
-![](https://lh3.googleusercontent.com/6jCJzADrIye7ebP4v0809ughwt_zKKIalLMp9ETmjDdzvInssvTjgJpV4hSlLkOuJcE5bgJg0pacGLVX24h4i_vUi7Zkzx_6KHlM4P5ARueGndaE219REtQ1LiWgtYlLqTzBmClmXGRtofJBc-lS8jqPU8ntmg3TbRO2NnTDYevjXFZfs2OidO0nhA)
-
-Testing ping google.com.
-
-![](https://lh5.googleusercontent.com/U0FaE_799ypU6zNfwpHjnvgi4HmDZIZaZo8yezjRJ7XuDTwDRDVyLXZ2gAs-4mlwxHFP3Aa0wE3Hj6JnaHoQ2ldJqeyxbiSuuF0XhqV2MPfywQVyPxqgwGuoAgEpFT7VxOsmW68h2AagApeDR6nocGzK3GPVqhKNtw1E5e2NILLBgnV6DwD9rfzbNQ)
 
 1.  Membuat subdomain wise.ita05.com dengan alias www.wise.ita05.com
 
